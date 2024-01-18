@@ -19,10 +19,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,8 +42,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen() {
-//    var count1 by rememberSaveable { mutableIntStateOf(0) }
-//    var count2 by rememberSaveable { mutableIntStateOf(0) }
+    val viewModel: CounterViewModel = viewModel()
 
     Jet09ViewModelTheme {
         Surface(
@@ -55,35 +52,41 @@ fun MainScreen() {
             if (LocalConfiguration.current.orientation
                     == Configuration.ORIENTATION_PORTRAIT) {
                 Column {
-                    Box (Modifier.weight(1F)) {
+                    Box (modifier = Modifier.weight(1F)) {
                         Counter(
                             Modifier.background(Color(0xFFFE7A36)),
+                            viewModel.count,
+                            { viewModel.add() },
+                            { viewModel.sub() },
                         )
                     }
-//                    Box (Modifier.weight(1F)) {
+//                    Box (modifier = Modifier.weight(1F)) {
 //                        Counter(
 //                            Modifier.background(Color(0xFF280274)),
-//                            count2
-//                        ) {
-//                            count2 = it
-//                        }
+//                            viewModel.count,
+//                            { viewModel.add() },
+//                            { viewModel.sub() },
+//                        )
 //                    }
                 }
             }
             else {
                 Row {
-                    Box (Modifier.weight(1F)) {
+                    Box (modifier = Modifier.weight(1F)) {
                         Counter(
                             Modifier.background(Color(0xFFFE7A36)),
+                            viewModel.count,
+                            { viewModel.add() },
+                            { viewModel.sub() },
                         )
                     }
-//                    Box (Modifier.weight(1F)) {
+//                    Box (modifier = Modifier.weight(1F)) {
 //                        Counter(
 //                            Modifier.background(Color(0xFF280274)),
-//                            count2
-//                        ) {
-//                            count2 = it
-//                        }
+//                            viewModel.count,
+//                            { viewModel.add() },
+//                            { viewModel.sub() },
+//                        )
 //                    }
                 }
             }
@@ -94,14 +97,15 @@ fun MainScreen() {
 @Composable
 fun Counter(
     modifier: Modifier = Modifier,
-    viewModel: CounterViewModel = viewModel(),
-//    count: Int,
-//    onChangeCount: (Int) -> Unit
+    state: State<Int>,
+    onAddCount: () -> Unit,
+    onSubCount: () -> Unit,
+    //viewModel: CounterViewModel = viewModel(),
 ) {
-    var count by remember { mutableIntStateOf(viewModel.count) }
+    val count by state
+
     Column(
         modifier = Modifier
-            //.weight(1F)
             .fillMaxSize()
             .padding(8.dp)
             .background(Color(0XFFE9F6FF)),
@@ -124,8 +128,8 @@ fun Counter(
                     .padding(8.dp)
                     .weight(1F),
                 onClick = {
-                    viewModel.add()
-                    count = viewModel.count
+                    //viewModel.add()
+                    onAddCount()
                 }
             ) {
                 Text("증가", fontSize = 30.sp)
@@ -138,8 +142,8 @@ fun Counter(
                     .padding(8.dp)
                     .weight(1F),
                 onClick = {
-                    viewModel.sub()
-                    count = viewModel.count
+                    //viewModel.sub()
+                    onSubCount()
                 }
             ) {
                 Text("감소", fontSize = 30.sp)

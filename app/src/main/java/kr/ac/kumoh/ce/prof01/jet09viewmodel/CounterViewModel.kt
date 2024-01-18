@@ -1,19 +1,23 @@
 package kr.ac.kumoh.ce.prof01.jet09viewmodel
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.lifecycle.ViewModel
 
 class CounterViewModel : ViewModel() {
-    private var _count = 0
-    val count: Int
+    private val counter = CounterModel()
+
+    private var _count = mutableIntStateOf(counter.count)
+    val count: State<Int>
         get() = _count
 
     fun add() {
-        _count++
+        counter.add()
+        _count.intValue = counter.count
     }
 
     fun sub() {
-        if (_count > 0)
-            _count--
+        counter.sub()
+        _count.intValue = counter.count
     }
-
 }
