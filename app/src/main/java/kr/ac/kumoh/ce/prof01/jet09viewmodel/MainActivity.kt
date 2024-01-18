@@ -8,7 +8,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +30,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kr.ac.kumoh.ce.prof01.jet09viewmodel.ui.theme.Jet09ViewModelTheme
 
 class MainActivity : ComponentActivity() {
@@ -45,8 +44,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen() {
-    var count1 by rememberSaveable { mutableIntStateOf(0) }
-    var count2 by rememberSaveable { mutableIntStateOf(0) }
+//    var count1 by rememberSaveable { mutableIntStateOf(0) }
+//    var count2 by rememberSaveable { mutableIntStateOf(0) }
 
     Jet09ViewModelTheme {
         Surface(
@@ -59,19 +58,16 @@ fun MainScreen() {
                     Box (Modifier.weight(1F)) {
                         Counter(
                             Modifier.background(Color(0xFFFE7A36)),
-                            count1
-                        ) {
-                            count1 = it
-                        }
+                        )
                     }
-                    Box (Modifier.weight(1F)) {
-                        Counter(
-                            Modifier.background(Color(0xFF280274)),
-                            count2
-                        ) {
-                            count2 = it
-                        }
-                    }
+//                    Box (Modifier.weight(1F)) {
+//                        Counter(
+//                            Modifier.background(Color(0xFF280274)),
+//                            count2
+//                        ) {
+//                            count2 = it
+//                        }
+//                    }
                 }
             }
             else {
@@ -79,19 +75,16 @@ fun MainScreen() {
                     Box (Modifier.weight(1F)) {
                         Counter(
                             Modifier.background(Color(0xFFFE7A36)),
-                            count1
-                        ) {
-                            count1 = it
-                        }
+                        )
                     }
-                    Box (Modifier.weight(1F)) {
-                        Counter(
-                            Modifier.background(Color(0xFF280274)),
-                            count2
-                        ) {
-                            count2 = it
-                        }
-                    }
+//                    Box (Modifier.weight(1F)) {
+//                        Counter(
+//                            Modifier.background(Color(0xFF280274)),
+//                            count2
+//                        ) {
+//                            count2 = it
+//                        }
+//                    }
                 }
             }
         }
@@ -101,9 +94,11 @@ fun MainScreen() {
 @Composable
 fun Counter(
     modifier: Modifier = Modifier,
-    count: Int,
-    onChangeCount: (Int) -> Unit
+    viewModel: CounterViewModel = viewModel(),
+//    count: Int,
+//    onChangeCount: (Int) -> Unit
 ) {
+    var count by remember { mutableIntStateOf(viewModel.count) }
     Column(
         modifier = Modifier
             //.weight(1F)
@@ -129,7 +124,8 @@ fun Counter(
                     .padding(8.dp)
                     .weight(1F),
                 onClick = {
-                    onChangeCount(count + 1)
+                    viewModel.add()
+                    count = viewModel.count
                 }
             ) {
                 Text("증가", fontSize = 30.sp)
@@ -142,8 +138,8 @@ fun Counter(
                     .padding(8.dp)
                     .weight(1F),
                 onClick = {
-                    if (count > 0)
-                        onChangeCount(count - 1)
+                    viewModel.sub()
+                    count = viewModel.count
                 }
             ) {
                 Text("감소", fontSize = 30.sp)
