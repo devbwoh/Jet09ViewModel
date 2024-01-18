@@ -55,19 +55,19 @@ fun MainScreen() {
                     Box (modifier = Modifier.weight(1F)) {
                         Counter(
                             Modifier.background(Color(0xFFFE7A36)),
-                            viewModel.count,
-                            { viewModel.add() },
-                            { viewModel.sub() },
+                            viewModel.count1,
+                            { viewModel.add1() },
+                            { viewModel.sub1() },
                         )
                     }
-//                    Box (modifier = Modifier.weight(1F)) {
-//                        Counter(
-//                            Modifier.background(Color(0xFF280274)),
-//                            viewModel.count,
-//                            { viewModel.add() },
-//                            { viewModel.sub() },
-//                        )
-//                    }
+                    Box (modifier = Modifier.weight(1F)) {
+                        Counter(
+                            Modifier.background(Color(0xFF280274)),
+                            viewModel.count2,
+                            { viewModel.add2() },
+                            { viewModel.sub2() },
+                        )
+                    }
                 }
             }
             else {
@@ -75,19 +75,19 @@ fun MainScreen() {
                     Box (modifier = Modifier.weight(1F)) {
                         Counter(
                             Modifier.background(Color(0xFFFE7A36)),
-                            viewModel.count,
-                            { viewModel.add() },
-                            { viewModel.sub() },
+                            viewModel.count1,
+                            { viewModel.add1() },
+                            { viewModel.sub1() },
                         )
                     }
-//                    Box (modifier = Modifier.weight(1F)) {
-//                        Counter(
-//                            Modifier.background(Color(0xFF280274)),
-//                            viewModel.count,
-//                            { viewModel.add() },
-//                            { viewModel.sub() },
-//                        )
-//                    }
+                    Box (modifier = Modifier.weight(1F)) {
+                        Counter(
+                            Modifier.background(Color(0xFF280274)),
+                            viewModel.count2,
+                            { viewModel.add2() },
+                            { viewModel.sub2() },
+                        )
+                    }
                 }
             }
         }
